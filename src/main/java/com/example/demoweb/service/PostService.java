@@ -3,24 +3,20 @@ package com.example.demoweb.service;
 import com.example.demoweb.model.Post;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 @Service
 public class PostService {
+    @Autowired
+    PostRepository postRepository;
 
-    private ArrayList<Post> posts = new ArrayList<Post>(Arrays.asList(
-            new Post(0l, "первый пост", new Date()),
-            new Post(1l, "второй пост", new Date()),
-            new Post(2l, "третий пост", new Date())
-    ));
-
-    public ArrayList<Post> listAllPosts() {
-        return posts;
+    public Iterable<Post> listAllPosts() {
+        return postRepository.findAll();
     }
 
     public void create(String text) {
-        posts.add(new Post((long) posts.size(), text, new Date()));
+        Post post = new Post(null, text, new Date());
+        postRepository.save(post);
     }
+
 }
